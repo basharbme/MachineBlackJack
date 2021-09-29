@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>MachineBlackJack</title>
+</head>
+<body>
+    <section id="welcome_section">
+        <h1>Добро Пожаловать!</h1>
+        <p>Игра в 21, с советчиком - машиной и теорией вероятности</p>
+        <div id="start_button" onclick="start_game()">
+            Начать игру
+        </div>
+    </section>
+    <section id="game_section">
+        <div id="deck">
+            <div class="card">
+                <div class="card" style="height: 145px;">    
+                    <div class="card" style="height: 140px;">
+                        <div class="card" style="height: 135px;">
+                            <div class="card" style="height: 130px;line-height: 130px;font-size: 25pt;font-weight: bold;">
+                                21
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div id="dealer_cards_container">
+
+        </div>
+        <div id="own_cards_container">
+        </div>
+        <div id="action_bar">
+            <div class="button" onclick="hit()" id="hit_btn">
+                Hit
+            </div>
+            <div class="button" id="stand_btn" onclick="stay()">
+                Stand
+            </div>
+            <div class="button" onclick="start_game()">
+                Start over
+            </div>
+        </div>
+        <div id="hints">
+            <h2>AI recommends: <span id="ai_rec"></span></h2>
+            <h2>Probability recommends: <span id="prob_rec"></span></h2>
+            <h2>Victories: <span id="vict"></span></h2>
+        </div>  
+    </section>
+    <script src="/static/jquery.js"></script>
+    <script src="/static/index.js"></script>
+</body>
+</html>
