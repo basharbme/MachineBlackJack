@@ -1,9 +1,5 @@
-try:
-    from file_interface import File
-    from game import Game
-except ModuleNotFoundError:
-    from BlackJack.AI.file_interface import File
-    from BlackJack.AI.game import Game
+from file_interface import File
+from game import Game
 import multiprocessing as mp
 
 def generate_nodes(manager):
@@ -28,22 +24,12 @@ def play(files, lock):
     res = game.finish_game()
     game.learn(str(int(res)))
 
-def advice(dealer, player):
-    file_name = 'BlackJack/AI/data/'+str(dealer)+'_'+str(player)+'.txt'
-    file = open(file_name, 'r')
-    data = file.read()
-    file.close()
-    n = len(data)
-    hit = data.count('1')/n
-    stay = data.count('0')/n
-    return {'hit':hit, 'stay': stay}
-
 if __name__ == '__main__':
     manager = mp.Manager()
     files = generate_nodes(manager)
     lock = mp.Lock()
     jobs = []
-    for i in range(200000):
+    for i in range(2):
         for j in range(4):
             jobs.append(mp.Process(target=play, args=(files,lock,)))
             jobs[j].start()

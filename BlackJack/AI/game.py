@@ -2,8 +2,9 @@ import json
 import random
 try:
     from card import Card, create_deck
+    from probability import probability_advice
 except(ModuleNotFoundError):
-    from BlackJack.AI.card import Card, create_deck
+    from AI.card import Card, create_deck
 
 def value_if_not_none(value, alternative):
     return value if value != None else alternative
@@ -25,11 +26,9 @@ class Game:
         self.deck.remove(card)
         return card
 
-    def make_choice(self, file_name):
-        choice_probability = ''
-        choice_probability += self.files[file_name].read()
-        choice = random.choice(choice_probability)
-        return choice
+    def make_choice(self, dealer, player):
+        res = probability_advice(self.deck, dealer, player)
+        return 1 if res['hit'] > res['stay'] else 0
         
     
     
@@ -41,8 +40,10 @@ class Game:
             self.state['self'].append(self.deal_card())
             self.chain['data/root.txt'] = ''
         else:
-            file_name = 'data/'+str(Card.count_value(self.state['dealer'])) + "_" + str(Card.count_value(self.state['self']))+'.txt'
-            choice = self.make_choice(file_name) if choice == None else choice
+            dealer = Card.count_value(self.state['dealer'])
+            own = Card.count_value(self.state['self'])
+            file_name = 'data/'+str(dealer) + "_" + str(own)+'.txt'
+            choice = self.make_choice(dealer, own)
             if choice == '1':
                 self.state['self'].append(self.deal_card())
                 self.chain[file_name] = int(choice)
