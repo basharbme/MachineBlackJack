@@ -3,9 +3,9 @@ import os
 from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.template import loader
-from AI.probability import advice, generate_game_id
-from AI.game import Game
-from AI.card import Card
+from BlackJack.AI.probability import advice, generate_game_id
+from BlackJack.AI.game import Game
+from BlackJack.AI.card import Card
 
 def index(request):
     index_page = loader.get_template('index.html')
