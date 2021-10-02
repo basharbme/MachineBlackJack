@@ -30,7 +30,7 @@ def hit(request):
     state={'dealer': game_json['dealer'], 'self': game_json['self']}, 
     chain=game_json['chain'])
     game_json = {}
-    if game.next_round('1'):
+    if game.next_round('1') == True:
         print(game.chain)
         game_json['result'] = game.finish_game()
         game.learn(game_json['result'])
