@@ -1,7 +1,10 @@
 import random
 import string
 import math
+import json
+
 from BlackJack.settings import BASE_DIR
+
 if __name__=='__main__':
     import matplotlib.pyplot as plot
     import numpy as np
@@ -21,6 +24,8 @@ def probability_hit(deck, value, sup):
     num_of_cards = 0
     value = sup - value
     for card in deck:
+        if type(card) == str:
+            card = json.dumps(card)
         if type(card) != dict:
             card = card.__dict__
         num_of_cards += 1 if (type(card['value']) == int and card['value'] <= value) else 0
@@ -33,6 +38,8 @@ def deck_mean(deck):
     for i in range(1, 10):
         cnt = 0
         for card in deck:
+            if type(card) == str:
+                card = json.dumps(card)
             if type(card) != dict:
                 card = card.__dict__
             if card['value'] == i:
