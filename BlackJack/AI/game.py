@@ -4,7 +4,9 @@ try:
     from card import Card, create_deck
     from probability import probability_advice
 except(ModuleNotFoundError):
-    from AI.card import Card, create_deck
+    from BlackJack.AI.card import Card, create_deck
+    from BlackJack.AI.probability import probability_advice
+    from BlackJack.settings import BASE_DIR
 
 def value_if_not_none(value, alternative):
     return value if value != None else alternative
@@ -71,14 +73,14 @@ class Game:
                 if self.files != None:
                     self.files[link].append(self.chain[link])
                 else:
-                    with open('BlackJack/AI/'+link, 'a') as file:
+                    with open(BASE_DIR+'/BlackJack/AI/'+link, 'a') as file:
                         file.write(str(self.chain[link]))
             # else:
             #     print(self.chain[link])
             #     if self.files != None:
             #         self.files[link].append(str(not int(self.chain[link])))
             #     else:
-            #         with open('BlackJack/AI/'+link, 'a') as file:
+            #         with open(BASE_DIR+'/BlackJack/AI/'+link, 'a') as file:
             #             file.write(str(not int(self.chain[link])))
             
     def to_json(self):

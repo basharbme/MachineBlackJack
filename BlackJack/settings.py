@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-n!5w1!9d0fn=vgeeo(&qnh=1j+kaxb%w50bootpu6^mqc9c-!=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['161.97.77.224']
+ALLOWED_HOSTS = ['161.97.77.224', 'www.fluxapps.org']
 
 
 # Application definition
