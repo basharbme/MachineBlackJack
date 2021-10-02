@@ -25,7 +25,7 @@ def probability_hit(deck, value, sup):
     value = sup - value
     for card in deck:
         if type(card) == str:
-            card = json.dumps(card)
+            card = json.loads(card)
         if type(card) != dict:
             card = card.__dict__
         num_of_cards += 1 if (type(card['value']) == int and card['value'] <= value) else 0
@@ -39,7 +39,7 @@ def deck_mean(deck):
         cnt = 0
         for card in deck:
             if type(card) == str:
-                card = json.dumps(card)
+                card = json.loads(card)
             if type(card) != dict:
                 card = card.__dict__
             if card['value'] == i:
