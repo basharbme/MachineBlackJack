@@ -8,7 +8,7 @@ if __name__=='__main__':
 
 
 def ai_advice(dealer, player):
-    file_name = BASE_DIR+'/BlackJack/AI/data/'+str(dealer)+'_'+str(player)+'.txt'
+    file_name = BASE_DIR.as_posix()+'/BlackJack/AI/data/'+str(dealer)+'_'+str(player)+'.txt'
     file = open(file_name, 'r')
     data = file.read()
     file.close()
@@ -67,7 +67,7 @@ def generate_game_id():
     return ''.join(random.choices(string.ascii_letters + string.digits, k=10))
 
 def analize_data():
-    with open(BASE_DIR+'/BlackJack/AI/data/root.txt') as file:
+    with open(BASE_DIR.as_posix()+'/BlackJack/AI/data/root.txt') as file:
         match_result = file.read()
     num_of_matches = len(match_result)
     result = {}

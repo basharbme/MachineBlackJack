@@ -73,14 +73,14 @@ class Game:
                 if self.files != None:
                     self.files[link].append(self.chain[link])
                 else:
-                    with open(BASE_DIR+'/BlackJack/AI/'+link, 'a') as file:
+                    with open(BASE_DIR.as_posix()+'/BlackJack/AI/'+link, 'a') as file:
                         file.write(str(self.chain[link]))
             # else:
             #     print(self.chain[link])
             #     if self.files != None:
             #         self.files[link].append(str(not int(self.chain[link])))
             #     else:
-            #         with open(BASE_DIR+'/BlackJack/AI/'+link, 'a') as file:
+            #         with open(BASE_DIR.as_posix()+'/BlackJack/AI/'+link, 'a') as file:
             #             file.write(str(not int(self.chain[link])))
             
     def to_json(self):

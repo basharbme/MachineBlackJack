@@ -17,13 +17,13 @@ def start_game(request):
     game = Game()
     game.next_round()
     game_json = game.to_json()
-    with open(BASE_DIR+'/BlackJack/Game/games/'+request.session['game_id'], "w") as file:
+    with open(BASE_DIR.as_posix()+'/BlackJack/Game/games/'+request.session['game_id'], "w") as file:
         file.write(game_json)
     return HttpResponse(game_json)
 
 def hit(request):
     game_json = ''
-    with open(BASE_DIR+'/BlackJack/Game/games/'+request.session['game_id'], "r") as file:
+    with open(BASE_DIR.as_posix()+'/BlackJack/Game/games/'+request.session['game_id'], "r") as file:
         game_json = file.read()
     game_json = json.loads(game_json)
     game = Game(deck=game_json['deck'], 
@@ -35,20 +35,20 @@ def hit(request):
         game_json['result'] = game.finish_game()
         game.learn(game_json['result'])
         game_json['game'] = game.to_json()
-        with open(BASE_DIR+'/BlackJack/Game/games/'+request.session['game_id'], "w") as file:
+        with open(BASE_DIR.as_posix()+'/BlackJack/Game/games/'+request.session['game_id'], "w") as file:
             file.write(game_json['game'])
         game_json = json.dumps(game_json)
-        os.remove(BASE_DIR+'/BlackJack/Game/games/'+request.session['game_id'])
+        os.remove(BASE_DIR.as_posix()+'/BlackJack/Game/games/'+request.session['game_id'])
 
     else:
         game_json = game.to_json()
-        with open(BASE_DIR+'/BlackJack/Game/games/'+request.session['game_id'], "w") as file:
+        with open(BASE_DIR.as_posix()+'/BlackJack/Game/games/'+request.session['game_id'], "w") as file:
             file.write(game_json)
     return HttpResponse(game_json)
     
 
 def get_rec(request):
-    with open(BASE_DIR+'/BlackJack/Game/games/'+request.session['game_id'], "r") as file:
+    with open(BASE_DIR.as_posix()+'/BlackJack/Game/games/'+request.session['game_id'], "r") as file:
         game = json.loads(file.read())
     deck = []
     for prop in game['deck']:
@@ -61,7 +61,7 @@ def stay(request):
 
     game_json = ''
 
-    with open(BASE_DIR+'/BlackJack/Game/games/'+request.session['game_id'], "r") as file:
+    with open(BASE_DIR.as_posix()+'/BlackJack/Game/games/'+request.session['game_id'], "r") as file:
         game_json = file.read()
     
     game_json = json.loads(game_json)
@@ -72,6 +72,6 @@ def stay(request):
     game.learn(game_json['result'])
     game_json['game'] = game.to_json()
     game_json = json.dumps(game_json)
-    os.remove(BASE_DIR+'/BlackJack/Game/games/'+request.session['game_id'])
+    os.remove(BASE_DIR.as_posix()+'/BlackJack/Game/games/'+request.session['game_id'])
     
     return HttpResponse(game_json)
