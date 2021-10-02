@@ -45,7 +45,8 @@ class Game:
             dealer = Card.count_value(self.state['dealer'])
             own = Card.count_value(self.state['self'])
             file_name = 'data/'+str(dealer) + "_" + str(own)+'.txt'
-            choice = self.make_choice(dealer, own)
+            if choice == None:
+                choice = self.make_choice(dealer, own)
             if choice == '1':
                 self.state['self'].append(self.deal_card())
                 self.chain[file_name] = int(choice)
