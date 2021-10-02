@@ -57,9 +57,12 @@ def get_rec(request):
     Card.count_value(game['self']))))
 
 def stay(request):
+
     game_json = ''
+
     with open('BlackJack/Game/games/'+request.session['game_id'], "r") as file:
         game_json = file.read()
+    
     game_json = json.loads(game_json)
     game = Game(deck=game_json['deck'], 
     state={'dealer': game_json['dealer'], 'self': game_json['self']}, 
@@ -69,4 +72,5 @@ def stay(request):
     game_json['game'] = game.to_json()
     game_json = json.dumps(game_json)
     os.remove('BlackJack/Game/games/'+request.session['game_id'])
+    
     return HttpResponse(game_json)
