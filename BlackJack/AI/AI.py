@@ -26,9 +26,9 @@ def machine_learning():
     files = generate_nodes(manager)
     lock = mp.Lock()
     jobs = []
-
-    for i in range(10):
-        for j in range(2):
+    n = 1000000
+    for i in range(n):
+        for j in range(1):
             jobs.append(mp.Process(target=play, args=(files,lock,)))
             jobs[j].start()
 
