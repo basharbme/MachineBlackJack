@@ -77,6 +77,7 @@ body{
     #action_bar div{
         width: 150px;
         padding: 10px;
+        margin: auto;
     }
 }
 
