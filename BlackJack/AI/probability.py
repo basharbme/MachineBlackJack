@@ -52,11 +52,10 @@ def deck_mean(deck):
 def probability_advice(deck, dealer, player):
     mean = deck_mean(deck)
     hit = probability_hit(deck, player, 21)
-    dealer_win = 0
+    dealer_win = 1
     while(dealer < min(21, player+mean)):
-        prev_res_probability = dealer_win if dealer_win != 0 else 1
-        dealer_win += prev_res_probability*(probability_hit(deck, dealer, 21)-probability_hit(deck, dealer, player))
-        print(dealer, " his prob ",dealer_win)
+        prob = (probability_hit(deck, dealer, 21)-probability_hit(deck, dealer, player))
+        dealer_win *= prob if prob > 0 else 1
         dealer+=mean
     stay = 1-dealer_win
     return {'hit':hit,'stay': stay}
