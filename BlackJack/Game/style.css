@@ -11,9 +11,9 @@ body{
     box-shadow: 0 0 1px goldenrod;
     background-color: #b86248;
     font-size: 20pt;
-    padding: 40px;
+    padding: 20px;
     margin: 100px auto;   
-    color: black;
+    color: #483C32;
 }
 #start_button:hover{
     cursor: pointer;
@@ -69,6 +69,7 @@ body{
     }
     #dealer_cards_container .card, #own_cards_container .card{
         align-self: center;
+        margin:  10px 0 10px 0;
     }
     #action_bar{
         flex-direction: column;
