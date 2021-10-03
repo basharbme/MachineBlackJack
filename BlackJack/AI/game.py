@@ -1,12 +1,9 @@
 import json
 import random
-try:
-    from card import Card, create_deck
-    from probability import probability_advice
-except(ModuleNotFoundError):
-    from BlackJack.AI.card import Card, create_deck
-    from BlackJack.AI.probability import probability_advice
-    from BlackJack.settings import BASE_DIR
+
+from BlackJack.AI.card import Card, create_deck
+from BlackJack.AI.probability import probability_advice
+from BlackJack.settings import BASE_DIR
 
 def value_if_not_none(value, alternative):
     return value if value != None else alternative
@@ -29,22 +26,36 @@ class Game:
         return card
 
     def make_choice(self, dealer, player):
-        res = probability_advice(self.deck, dealer, player)
+        res = {}
+
+        content = self.files[BASE_DIR.as_posix()+'/BlackJack/AI/data/root.txt'].read()
+        machine = content.count('1')/len(content)
+
+        if random.random() <= machine:
+            content = self.files[BASE_DIR.as_posix()+'/BlackJack/AI/data/'+str(dealer) + "_" + str(player)+'.txt'].read()
+            n = len(content)
+            res['hit'] = content.count('1')/n
+            res['stay'] = content.count('0')/n
+        else:
+            res = probability_advice(self.deck, dealer, player)
+ 
         return 1 if res['hit'] > res['stay'] else 0
         
     
     
     def next_round(self, choice = None):
+
         end_game = False
+
         if len(self.chain) == 0:
             self.state['dealer'].append(self.deal_card())
             self.state['self'].append(self.deal_card())
             self.state['self'].append(self.deal_card())
-            self.chain['data/root.txt'] = ''
+            self.chain[BASE_DIR.as_posix()+'/BlackJack/AI/data/root.txt'] = ''
         else:
             dealer = Card.count_value(self.state['dealer'])
             own = Card.count_value(self.state['self'])
-            file_name = 'data/'+str(dealer) + "_" + str(own)+'.txt'
+            file_name = BASE_DIR.as_posix()+'/BlackJack/AI/data/'+str(dealer) + "_" + str(own)+'.txt'
             if choice == None:
                 choice = self.make_choice(dealer, own)
             if choice == '1':
@@ -58,23 +69,28 @@ class Game:
         return end_game
     
     def finish_game(self):
+
         score = Card.count_value(self.state['self'])
+
         if score <= 21:
             while Card.count_value(self.state['dealer']) <= 13:
                 self.state['dealer'].append(self.deal_card())
+        
         won = (score <= 21 and score > Card.count_value(self.state['dealer']))
         #print(score, "is my score and ", Card.count_value(self.state['dealer']), "is the dealer's")
         #print(self.chain)
         return won     
     
     def learn(self, result):
-        self.chain['data/root.txt'] = result
+
+        self.chain[BASE_DIR.as_posix()+'/BlackJack/AI/data/root.txt'] = result
+
         for link in self.chain:
             if result:
                 if self.files != None:
                     self.files[link].append(self.chain[link])
                 else:
-                    with open(BASE_DIR.as_posix()+'/BlackJack/AI/'+link, 'a') as file:
+                    with open(link, 'a') as file:
                         file.write(str(self.chain[link]))
             # else:
             #     print(self.chain[link])

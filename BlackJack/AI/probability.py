@@ -35,7 +35,7 @@ def probability_hit(deck, value, sup):
 def deck_mean(deck):
     mean = 0
     deck_len = len(deck)
-    for i in range(1, 10):
+    for i in range(1, 11):
         cnt = 0
         for card in deck:
             if type(card) == str:
@@ -45,16 +45,17 @@ def deck_mean(deck):
             if card['value'] == i:
                 cnt+=1
         mean+= (cnt*i)/deck_len
-    return mean
+    return math.ceil(mean)
 
 
 
 def probability_advice(deck, dealer, player):
     mean = deck_mean(deck)
     hit = probability_hit(deck, player, 21)
-    dealer_win = 1
+    dealer_win = 0
     while(dealer < min(21, player+mean)):
-        dealer_win-=1-probability_hit(deck, dealer, 21)
+        prev_res_probability = dealer_win if dealer_win != 0 else 1
+        dealer_win += prev_res_probability*(probability_hit(deck, dealer, 21)-probability_hit(deck, dealer, 14))
         dealer+=mean
     stay = 1-dealer_win
     return {'hit':hit,'stay': stay}

@@ -1,5 +1,5 @@
 var victories = 0;
-$('#game_section').hide();
+
 function update_rec(data){
     return "<p> Hit: "+data['hit']+"</p>"+
     "<p> Stay: "+data['stay']+"</p>";
@@ -26,47 +26,44 @@ function update_state(game){
       });
 }
 function start_game(){
-    $('#game_section').show();
     $('#welcome_section').hide();
+    $('#game_result').hide();
+
+    $('#game_section').show();
     $('#hit_btn').show();
     $('#stand_btn').show();
+
     $.get( "/start", function( data ) {
         update_state(JSON.parse(data));
       });
 }
+
+function end_game(data){
+    if (data['result']){
+        $('#game_result').html('Победа!');
+        victories+=1;
+    }else{
+        $('#game_result').html('Выиграл партье. Попробуйте ещё раз!');
+    }
+    $('#game_result').show()
+    $('#hit_btn').hide();
+    $('#stand_btn').hide();
+    update_state(JSON.parse(data['game']));
+}
+
 function hit(){
     $.get( "hit", function( data ) {
-        console.log(data)
         data = JSON.parse(data)
-        console.log(data)
         if (data['result'] == undefined){
             update_state(data);
         }else{
-            if (data['result']){
-                alert('Победа!');
-                victories+=1;
-            }else{
-                alert('Выиграл партье. Попробуйте ещё раз!');
-            }
-            $('#hit_btn').hide();
-            $('#stand_btn').hide();
-            update_state(JSON.parse(data['game']));
+            end_game(data);
         }
       });
 }
 function stay(){
     $.get( "stay", function( data ) {
-        console.log(data)
         data = JSON.parse(data)
-        console.log(data)
-        if (data['result']){
-            alert('Победа!');
-            victories+=1;
-        }else{
-            alert('Выиграл партье. Попробуйте ещё раз!');
-        }
-        $('#hit_btn').hide();
-        $('#stand_btn').hide();
-        update_state(JSON.parse(data['game']));
+        end_game(data);
       });
 }

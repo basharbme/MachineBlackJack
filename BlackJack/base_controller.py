@@ -1,7 +1,6 @@
 import json
 import os
 from django.http import HttpResponse
-from django.http.response import JsonResponse
 from django.template import loader
 from BlackJack.AI.probability import advice, generate_game_id
 from BlackJack.AI.game import Game
@@ -33,7 +32,7 @@ def hit(request):
     if game.next_round('1'):
         print(game.chain)
         game_json['result'] = game.finish_game()
-        game.learn(game_json['result'])
+        game.learn(int(game_json['result']))
         game_json['game'] = game.to_json()
         with open(BASE_DIR.as_posix()+'/BlackJack/Game/games/'+request.session['game_id'], "w") as file:
             file.write(game_json['game'])
@@ -48,14 +47,18 @@ def hit(request):
     
 
 def get_rec(request):
-    with open(BASE_DIR.as_posix()+'/BlackJack/Game/games/'+request.session['game_id'], "r") as file:
-        game = json.loads(file.read())
-    deck = []
-    for prop in game['deck']:
-        deck.append(json.loads(prop))
-    return HttpResponse(json.dumps(advice(deck, 
-    Card.count_value(game['dealer']), 
-    Card.count_value(game['self']))))
+    try:
+        with open(BASE_DIR.as_posix()+'/BlackJack/Game/games/'+request.session['game_id'], "r") as file:
+            game = json.loads(file.read())
+        deck = []
+        for prop in game['deck']:
+            deck.append(json.loads(prop))
+        return HttpResponse(json.dumps(advice(deck, 
+        Card.count_value(game['dealer']), 
+        Card.count_value(game['self']))))
+    except Exception:
+        return HttpResponse(json.dumps({'ai_rec':{'hit':'-', 'stay':'-'}, 
+        'prob_rec':{'hit':'-', 'stay':'-'}}))
 
 def stay(request):
 
@@ -69,7 +72,7 @@ def stay(request):
     state={'dealer': game_json['dealer'], 'self': game_json['self']}, 
     chain=game_json['chain'])
     game_json['result'] = game.finish_game()
-    game.learn(game_json['result'])
+    game.learn(int(game_json['result']))
     game_json['game'] = game.to_json()
     game_json = json.dumps(game_json)
     os.remove(BASE_DIR.as_posix()+'/BlackJack/Game/games/'+request.session['game_id'])
