@@ -90,7 +90,11 @@ class Game:
                 else:
                     with open(link, 'a') as file:
                         file.write(str(self.chain[link]))
-        self.files[BASE_DIR.as_posix()+'/BlackJack/AI/data/root.txt'].append(result)
+        if self.files != None:
+            self.files[BASE_DIR.as_posix()+'/BlackJack/AI/data/root.txt'].append(result)
+        else:
+            with open(BASE_DIR.as_posix()+'/BlackJack/AI/data/root.txt', 'a') as file:
+                file.write(result)
         
             
             # else:
