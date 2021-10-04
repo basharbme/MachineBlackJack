@@ -39,7 +39,7 @@ class Game:
         else:
             res = probability_advice(self.deck, dealer, player)
  
-        return 1 if res['hit'] > res['stay'] else 0
+        return '1' if res['hit'] > res['stay'] else '0'
         
     
     
@@ -82,16 +82,17 @@ class Game:
         return won     
     
     def learn(self, result):
-
         self.chain[BASE_DIR.as_posix()+'/BlackJack/AI/data/root.txt'] = result
-
-        for link in self.chain:
-            if result:
+        if result == '1':
+            for link in self.chain:
                 if self.files != None:
                     self.files[link].append(self.chain[link])
                 else:
                     with open(link, 'a') as file:
                         file.write(str(self.chain[link]))
+        self.files[BASE_DIR.as_posix()+'/BlackJack/AI/data/root.txt'].append(result)
+        
+            
             # else:
             #     print(self.chain[link])
             #     if self.files != None:
