@@ -28,7 +28,7 @@ def machine_learning():
     jobs = []
     n = 1000000
     for i in range(n):
-        for j in range(1):
+        for j in range(3):
             jobs.append(mp.Process(target=play, args=(files,lock,)))
             jobs[j].start()
 
