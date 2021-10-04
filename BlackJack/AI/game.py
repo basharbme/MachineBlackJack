@@ -94,7 +94,7 @@ class Game:
             self.files[BASE_DIR.as_posix()+'/BlackJack/AI/data/root.txt'].append(result)
         else:
             with open(BASE_DIR.as_posix()+'/BlackJack/AI/data/root.txt', 'a') as file:
-                file.write(result)
+                file.write(str(result))
         
             
             # else:
