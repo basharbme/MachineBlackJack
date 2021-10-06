@@ -76,7 +76,8 @@ class Game:
             while Card.count_value(self.state['dealer']) <= 13:
                 self.state['dealer'].append(self.deal_card())
         
-        won = (score <= 21 and score > Card.count_value(self.state['dealer']))
+        dealer_score = Card.count_value(self.state['dealer'])
+        won = (score <= 21 and (score > dealer_score or dealer_score > 21 ))
         #print(score, "is my score and ", Card.count_value(self.state['dealer']), "is the dealer's")
         #print(self.chain)
         return won     
